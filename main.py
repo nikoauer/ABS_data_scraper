@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 import ABS_2016_functions
 import ABS_2021_functions
 import Professions_scrapers
+from flask import Flask, jsonify
+
+app = Flask(__name__)
 
 # scrape the whole website
 def scrape_abs_data(url):
@@ -19,7 +22,7 @@ def scrape_abs_data(url):
     elif '2021' in url:
         return process_2021_data(soup)
     else:
-        print("The year could not be determined from the URL.")
+        {"error": "The year could not be determined from the URL."}
 
 # this function manages all the functions to retrieve all the 2016 data and collects the results in one spot
 def process_2016_data(soup):
@@ -41,23 +44,22 @@ def process_2021_data(soup):
     return total_data
 
 
-def main():
-    SA2_code_2016 = 801111140
-    SA2_code_2021 = 801111140
-    # URLs for 2016 and 2021 census data for Kelso
-    url_2016 = f"https://www.abs.gov.au/census/find-census-data/quickstats/2016/{SA2_code_2016}"
-    url_2021 = f"https://www.abs.gov.au/census/find-census-data/quickstats/2021/{SA2_code_2021}"
+# Flask route for scraping 2016 and 2021 data
+@app.route('/census/<int:sa2_code>', methods=['GET'])
+def get_census_data(sa2_code):
+    # URLs for the census data based on SA2 code
+    url_2016 = f"https://www.abs.gov.au/census/find-census-data/quickstats/2016/{sa2_code}"
+    url_2021 = f"https://www.abs.gov.au/census/find-census-data/quickstats/2021/{sa2_code}"
 
-    # Scrape data for 2016
-    print("Scraping 2016 Census Data:")
-    ABS_data_2016 = scrape_abs_data(url_2016)
-    print(ABS_data_2016)
+    # Scraping 2016 and 2021 data
+    abs_data_2016 = scrape_abs_data(url_2016)
+    abs_data_2021 = scrape_abs_data(url_2021)
 
-
-    # Scrape data for 2021
-    print("\nScraping 2021 Census Data:")
-    ABS_data_2021 = scrape_abs_data(url_2021)
-    print(ABS_data_2021)
+    # Return JSON response with both 2016 and 2021 data
+    return jsonify({
+        "2016": abs_data_2016,
+        "2021": abs_data_2021
+    })
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=False)
