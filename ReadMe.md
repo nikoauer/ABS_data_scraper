@@ -37,31 +37,44 @@ The goal of the API is to return this data in a structured JSON format, which ca
   - **Response**: JSON object containing census data from both 2016 and 2021.
 
 ### Core Functions
-    1. scrape_abs_data(url):
-    - Scrapes the ABS census data from the specified URL (either 2016 or 2021) and calls the appropriate processing function.
-    2.process_2016_data(soup):
-    - Retrieves the median household income, number of professionals, rent payments, and mortgage payments from 2016 data.
-    3.process_2021_data(soup):
-    - Similar to process_2016_data, but for 2021.
-    4. median_weekly_income_2016(soup) / median_weekly_income_2021(soup):
-    - Extracts and returns median weekly income for the suburb and state from the relevant year.
-    5. rent_weekly_payments_2016(soup) / rent_weekly_payments_2021(soup):
-    - Finds the percentage of renter households paying less than 30% of their income on rent for the given year.
-    6. mortgage_repayments_2016(soup) / mortgage_repayments_2021(soup):
-    - Extracts data on households spending less than 30% of their income on mortgage repayments.
-    7. no_of_Professionals(soup):
-    - Fetches the number of professionals in the suburb and state for both years.
+1. **`scrape_abs_data(url)`**  
+   - Scrapes the ABS census data from the specified URL (either 2016 or 2021) and calls the appropriate processing function.
+
+2. **`process_2016_data(soup)`**  
+   - Retrieves the median household income, number of professionals, rent payments, and mortgage payments from 2016 data.
+
+3. **`process_2021_data(soup)`**  
+   - Similar to `process_2016_data`, but for 2021.
+
+4. **`median_weekly_income_2016(soup)` / `median_weekly_income_2021(soup)`**  
+   - Extracts and returns median weekly income for the suburb and state from the relevant year.
+
+5. **`rent_weekly_payments_2016(soup)` / `rent_weekly_payments_2021(soup)`**  
+   - Finds the percentage of renter households paying less than 30% of their income on rent for the given year.
+
+6. **`mortgage_repayments_2016(soup)` / `mortgage_repayments_2021(soup)`**  
+   - Extracts data on households spending less than 30% of their income on mortgage repayments.
+
+7. **`no_of_Professionals(soup)`**  
+   - Fetches the number of professionals in the suburb and state for both years.
 
 ### Installation
-# Install dependencies:
-pip install Flask requests BeautifulSoup4
-# Run the app:
-python app.py
+
+1. **Install dependencies**:
+    ```bash
+    pip install Flask requests BeautifulSoup4
+    ```
+
+2. **Run the app**:
+    ```bash
+    python app.py
+    ```
 
 ### How to Integrate with Google Sheets
-# To integrate with Google Sheets:
-Use Google Sheets' built-in functions or Google Apps Script to make an API call to the Flask app's /census/<sa2_code> route.
-Parse the returned JSON data and populate the relevant cells with the census metrics.
+To integrate with Google Sheets:
+- Use Google Sheets' built-in functions or Google Apps Script to make an API call to the Flask app's `/census/<sa2_code>` route.
+- Parse the returned JSON data and populate the relevant cells with the census metrics.
+
 This setup allows users to pull in live data and use it to make more informed decisions regarding property investments in different areas.
 
 ## Example Response:
