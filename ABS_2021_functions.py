@@ -17,15 +17,15 @@ def median_weekly_income_2021(soup):
 # Find and return households where mortgage repayments are less than 30% of household from 2021 ABS data
 def mortage_repayments_2021(soup):
     # find the row with mortage households spending under 30% on repayment
-    mortage_repayment_title = soup.find('th', string='Renter households where rent payments are less than or equal to 30% of household income (b)')
+    mortage_repayment_title = soup.find('th', string='Owner with mortgage households where mortgage repayments are less than or equal to 30% of household income (a)')
     # if found, find the parent and extract the data for the state and suburb
     if mortage_repayment_title:
         mortage_row = mortage_repayment_title.find_parent('tr')
         mortage_data = mortage_row.find_all('td')
         Suburb_mortage_payments = float(mortage_data[1].get_text(strip=True))
         State_mortage_payments = float(mortage_data[3].get_text(strip=True))
-        rent_metrics = {'suburb renter households where rent payments are less than or equal to 30% of household income (b)': Suburb_mortage_payments,
-                                'state renter households where rent payments are less than or equal to 30% of household income (b)': State_mortage_payments}
+        rent_metrics = {'suburb mortgage households where mortgage repayments are less than or equal to 30% of household income (a)': Suburb_mortage_payments,
+                                'state mortgage households where mortgage repayments are less than or equal to 30% of household income (a)': State_mortage_payments}
         return rent_metrics
     else:
         print('Households where mortgage repayments are less than 30% of household income row could not be found')
